@@ -23,11 +23,11 @@ public class Main {
 
                     case "1":
                         inputArr = userEnteredArray(in);
-                        algor1Sum = solutionOne(inputArr);
-                        System.out.println("First algorithms max sum: " + algor1Sum);
+                        testAlgorithms(inputArr);
                         break;
                     case "2":
                         inputArr = randomGenArray(in);
+                        testAlgorithms(inputArr);
                         break;
                     case "exit":
                         System.out.println("Goodbye!");
@@ -73,6 +73,80 @@ public class Main {
         }
 
         return maxSum;
+
+    }
+    
+    //SOLUTION 3
+
+    public static int mssJunior(int[] a, int l, int r) {
+
+        //if there is one value in the array
+        if (l == r) {
+            return a[l];
+        }
+
+        //if there are two elements in the array
+        if (r == l+1) {
+            return Math.max(a[l], Math.max(a[r], (a[r]+a[l])));
+        }
+
+        int m = (l+r) / 2;
+
+        int mssL = mssJunior(a, l, m);
+
+        int mssR = mssJunior(a, m+1, r);
+
+        int mssM = mssJuniorMiddle(a, l, m, r);
+
+        return Math.max(mssL, Math.max(mssR, mssM));
+
+    }
+
+    public static int mssJuniorMiddle(int[] a, int l, int m, int r) {
+
+        int maxLeftSum = Integer.MIN_VALUE;
+        int sum = 0;
+
+        for (int i = m; i >= l; i--) {
+
+            sum += a[i];
+
+            if (maxLeftSum < sum) {
+                maxLeftSum = sum;
+            }
+
+        }
+
+        int maxRightSum = Integer.MIN_VALUE;
+        sum = 0;
+
+        for (int i = m+1; i <= r; i++) {
+
+            sum += a[i];
+
+            if (maxRightSum < sum) {
+                maxRightSum = sum;
+            }
+
+        }
+
+        return maxLeftSum + maxRightSum;
+
+    }
+
+    public static void testAlgorithms(int[] inputArr) {
+
+        long startTime = System.nanoTime();
+        int algor1Sum = solutionOne(inputArr);
+        long endTime = System.nanoTime();
+        System.out.println("System run time, " + (endTime - startTime) + " nano seconds.");
+        System.out.println("First algorithms max sum: " + algor1Sum);
+
+        startTime = System.nanoTime();
+        int algor3Sum = mssJunior(inputArr, 0, inputArr.length-1);
+        endTime = System.nanoTime();
+        System.out.println("System run time, " + (endTime - startTime) + " nano seconds.");
+        System.out.println("Third algorithms max sum: " + algor3Sum);
 
     }
 
