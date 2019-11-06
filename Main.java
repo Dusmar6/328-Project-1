@@ -49,31 +49,34 @@ public class Main {
     }
 
     public static int solutionOne(int[] array) {
-
         int maxSum = array[0];
-
         for (int i = 0; i < array.length; i++) {
-
             for (int j = i; j < array.length; j++) {
-
                 int tempSum = 0;
-
                 for (int k = i; k < j; k++) {
-
                     tempSum += array[k];
-
                 }
-
                 if (tempSum > maxSum) {
                     maxSum = tempSum;
                 }
-
             }
-
         }
-
         return maxSum;
+    }
 
+
+    public static int solutionTwo( int[] a){
+      int max_sum = 0;
+      for (i=0; i<n; i++){
+        int this_sum = 0;
+        for (j=i; j<n; j++){
+          this_sum += a[j];
+          if (this_sum>max_sum){
+            max_sum = this_sum;
+          }
+        }
+      }
+      return max_sum;
     }
     
     //SOLUTION 3
